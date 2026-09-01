@@ -1,0 +1,77 @@
+<div class="overflow-x-auto">
+  <table class="w-full text-left text-sm text-neutral-800">
+    <thead>
+      <tr class="text-[0.8125rem] font-bold text-neutral-800">
+        <th class="py-4 pl-4">Application No.</th>
+        <th class="py-4">Customer Name</th>
+        <th class="py-4">Amount Requested</th>
+        <th class="py-4">App Status</th>
+        <th class="py-4">Review / Disburse Result</th>
+        <th class="py-4">Notes</th>
+        <th class="py-4 pr-4 text-right">Review Date</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-neutral-100 text-sm">
+      @for (item of histories; track item.applicationNumber) {
+        <tr class="hover:bg-neutral-50/50 transition-colors">
+          <!-- Application Number -->
+          <td class="py-5 pl-4 text-neutral-600">
+            {{ item.applicationNumber }}
+          </td>
+
+          <!-- Customer Name -->
+          <td class="py-5 font-bold text-neutral-900">
+            {{ item.customerFullName }}
+          </td>
+
+          <!-- Amount Requested -->
+          <td class="py-5 font-bold text-neutral-900">
+            {{ item.amountRequested }}
+          </td>
+
+          <!-- Application Status -->
+          <td class="py-5 text-neutral-600">
+            {{ item.status }}
+          </td>
+          @if (isReviewHistory(item)) {
+            <!-- Review Result (APPROVED / REJECTED) -->
+            <td class="py-5 font-semibold" 
+                [ngClass]="{
+                  'text-green-600': item.result === 'APPROVED', 
+                  'text-red-600': item.result === 'REJECTED'
+                }">
+              {{ item.result }}
+            </td>
+
+            <!-- Notes -->
+            <td class="py-5 text-neutral-600 max-w-xs truncate" [title]="item.notes">
+              {{ item.notes }}
+            </td>
+          } @else {
+            <!-- Disbursement Result -->
+            <td class="py-5 font-semibold" 
+                [ngClass]="{
+                  'text-green-600': item.status === 'Disbursed' || item.status === 'DISBURSED', 
+                  'text-red-600': item.status === 'CANCELLED'
+                }">
+              {{ item.status }}
+            </td>
+
+            <td class="py-5 text-neutral-600">-</td>
+          }
+
+          <!-- Review Date (CreatedAt) -->
+          <td class="py-5 pr-4 text-right text-neutral-600">
+            {{ item.createdAt }}
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="7" class="py-8 text-center text-neutral-400 italic">
+            No loan history found.
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

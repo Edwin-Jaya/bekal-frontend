@@ -1,0 +1,89 @@
+<div class="w-full space-y-4">
+  <!-- Permission Matrix Card -->
+  <div class="overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm text-neutral-800">
+        <thead>
+          <tr class="bg-neutral-50/70 text-[0.875rem] font-bold text-neutral-900">
+            <th class="py-4 pl-6 font-bold">Menu Name</th>
+            <th class="py-4 text-center font-bold">View</th>
+            <th class="py-4 text-center font-bold">Create</th>
+            <th class="py-4 text-center font-bold">Edit</th>
+            <th class="py-4 text-center font-bold">Delete</th>
+            <th class="py-4 pr-6 text-center font-bold">Approve</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-neutral-100 text-sm">
+          @for (item of matrix; track item.menuId) {
+            <tr class="transition-colors hover:bg-neutral-50/40">
+              <!-- Menu Name -->
+              <td class="py-5 pl-6 font-semibold text-neutral-800">
+                {{ item.menuName }}
+              </td>
+
+              <!-- View -->
+              <td class="py-5 text-center">
+                <input
+                  type="checkbox"
+                  [checked]="item.roleMenuCanView"
+                  (change)="onPermissionChange(item, 'roleMenuCanView')"
+                  class="h-5 w-5 rounded border-neutral-300 accent-purple-600 cursor-pointer transition-transform focus:ring-purple-500/20"
+                />
+              </td>
+
+              <!-- Create -->
+              <td class="py-5 text-center">
+                <input
+                  type="checkbox"
+                  [checked]="item.roleMenuCanCreate"
+                  (change)="onPermissionChange(item, 'roleMenuCanCreate')"
+                  class="h-5 w-5 rounded border-neutral-300 accent-purple-600 cursor-pointer transition-transform focus:ring-purple-500/20"
+                />
+              </td>
+
+              <!-- Edit -->
+              <td class="py-5 text-center">
+                <input
+                  type="checkbox"
+                  [checked]="item.roleMenuCanEdit"
+                  (change)="onPermissionChange(item, 'roleMenuCanEdit')"
+                  class="h-5 w-5 rounded border-neutral-300 accent-purple-600 cursor-pointer transition-transform focus:ring-purple-500/20"
+                />
+              </td>
+
+              <!-- Delete -->
+              <td class="py-5 text-center">
+                <input
+                  type="checkbox"
+                  [checked]="item.roleMenuCanDelete"
+                  (change)="onPermissionChange(item, 'roleMenuCanDelete')"
+                  class="h-5 w-5 rounded border-neutral-300 accent-purple-600 cursor-pointer transition-transform focus:ring-purple-500/20"
+                />
+              </td>
+
+              <!-- Approve -->
+              <td class="py-5 pr-6 text-center">
+                <input
+                  type="checkbox"
+                  [checked]="item.roleMenuCanApprove"
+                  (change)="onPermissionChange(item, 'roleMenuCanApprove')"
+                  class="h-5 w-5 rounded border-neutral-300 accent-purple-600 cursor-pointer transition-transform focus:ring-purple-500/20"
+                />
+              </td>
+            </tr>
+            } @empty {
+              <tr>
+                <td colspan="6" class="py-10 text-center font-medium text-neutral-400">
+                  @if (isLoading) {
+                    Memuat data...
+                  } @else {
+                    Silakan pilih Role untuk menampilkan matriks hak akses.
+                  }
+                </td>
+              </tr>
+            }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+@theme {
+    --font-sans: "Plus Jakarta Sans",sans-serif;
+  --color-cream-bekal: #faf8f2; 
+  --color-green-bekal: #0b3d2a;
+  --color-green-bekal-neutral:#1C2A22;
+}

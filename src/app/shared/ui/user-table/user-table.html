@@ -1,0 +1,88 @@
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm text-neutral-800">
+        <thead>
+          <tr class="text-[0.8125rem] font-bold text-neutral-800">
+            <th class="py-4 pl-4">Nama</th>
+            <th class="py-4">Email</th>
+            <th class="py-4 text-center">Role</th>
+            <th class="py-4 text-center">Status</th>
+            <th class="py-4 pr-4 text-right">Aksi</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-neutral-100/80 font-medium">
+          <tr
+            *ngFor="let user of users; let i = index"
+            [ngClass]="{ 'bg-neutral-100/60 rounded-xl': i === 0 }"
+            class="transition-colors hover:bg-neutral-100/40"
+          >
+            <!-- Nama -->
+            <td class="py-4 pl-4 font-semibold text-neutral-900">
+              {{ user.full_name }}
+            </td>
+
+            <!-- Email -->
+            <td class="py-4 text-neutral-600">
+              {{ user.email }}
+            </td>
+
+            <!-- Role Badge -->
+            <td class="py-4 text-center">
+              <span class="inline-block rounded-full bg-neutral-200/70 px-4 py-1.5 text-xs font-medium text-neutral-700">
+                {{ user.role }}
+              </span>
+            </td>
+
+            <!-- Status Badge -->
+            <td class="py-4 text-center">
+              <span
+                [ngClass]="{
+                  'bg-secondary-100 text-secondary-700': user.status === 'Active',
+                  'bg-neutral-200/80 text-neutral-600': user.status === 'Inactive'
+                }"
+                class="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold"
+              >
+                <span
+                  [ngClass]="{
+                    'bg-secondary-600': user.status === 'Active',
+                    'bg-neutral-500': user.status === 'Inactive'
+                  }"
+                  class="h-2 w-2 rounded-full"
+                ></span>
+                {{ user.status }}
+              </span>
+            </td>
+
+            <!-- Actions -->
+            <td class="py-4 pr-4 text-right">
+              <div class="flex items-center justify-end gap-3 text-neutral-600">
+                <!-- Pencil / Edit Icon -->
+                <button
+                  *appHasPermission="'canEdit'"
+                  (click)="onEdit(user)"
+                  type="button"
+                  title="Edit User"
+                  class="p-1 transition-colors hover:text-secondary-600"
+                >
+                  <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                  </svg>
+                </button>
+
+                <!-- Trash / Delete Icon -->
+                <button
+                  *appHasPermission="'canDelete'"
+                  (click)="onDeactivate(user)"
+                  type="button"
+                  [title]="user.status === 'Active' ? 'Deactivate User' : 'Activate User'"
+                  [class]="user.status === 'Active' ? 'p-1 transition-colors hover:text-amber-600 text-neutral-400' : 'p-1 transition-colors hover:text-emerald-600 text-emerald-500'"
+                >
+                  <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5.636 18.364a9 9 0 010-12.728m12.728 0a9 9 0 010 12.728M12 3v9" />
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>

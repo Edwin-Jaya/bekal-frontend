@@ -1,0 +1,94 @@
+<div class="overflow-x-auto">
+  <table class="w-full text-left text-sm text-neutral-800">
+    <thead>
+      <tr class="text-[0.8125rem] font-bold text-neutral-800 border-b border-neutral-100">
+        <th class="py-4 pl-4">Nama Menu</th>
+        <th class="py-4">Path / Route</th>
+        <th class="py-4 text-center">Icon</th>
+        <th class="py-4 text-center">Urutan</th>
+        <th class="py-4 text-center">Status</th>
+        <th class="py-4 pr-4 text-center">Aksi</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-neutral-100 text-sm">
+      @for (menu of menus; track menu.id) {
+        <tr class="hover:bg-neutral-50/50 transition-colors">
+          <!-- Nama Menu -->
+          <td class="py-5 pl-4 font-bold text-tertiary-900">
+            {{ menu.menuName }}
+          </td>
+
+          <!-- Menu Path -->
+          <td class="py-5 text-neutral-600 font-mono text-xs">
+            {{ menu.menuPath }}
+          </td>
+
+          <!-- Menu Icon -->
+          <td class="py-4 text-center">
+            <span class="inline-block rounded-md bg-neutral-100 px-2 py-1 font-mono text-xs text-neutral-600">
+              {{ menu.menuIcon || '-' }}
+            </span>
+          </td>
+
+          <!-- Sort Order -->
+          <td class="py-4 text-center font-semibold text-neutral-700">
+            {{ menu.menuSortOrder }}
+          </td>
+
+          <!-- Status Badge (menuIsActive) -->
+          <td class="py-4 text-center">
+            <span
+              [ngClass]="{
+                'bg-secondary-100 text-secondary-700': menu.menuIsActive || menu.status === 'Active',
+                'bg-neutral-200/80 text-neutral-600': !menu.menuIsActive && menu.status !== 'Active'
+              }"
+              class="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold"
+            >
+              <span
+                [ngClass]="{
+                  'bg-secondary-600': menu.menuIsActive || menu.status === 'Active',
+                  'bg-neutral-500': !menu.menuIsActive && menu.status !== 'Active'
+                }"
+                class="h-2 w-2 rounded-full"
+              ></span>
+              {{ (menu.menuIsActive || menu.status === 'Active') ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+
+          <!-- Aksi -->
+            <td class="py-4 pr-4 text-right">
+              <div class="flex items-center justify-end gap-3 text-neutral-600">
+                <!-- Pencil / Edit Icon -->
+                <button
+                  *appHasPermission="'canEdit'"
+                  (click)="onEdit(menu)"
+                  type="button"
+                  title="Edit Menu"
+                  class="p-1 transition-colors hover:text-secondary-600"
+                >
+                  <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                  </svg>
+                </button>
+
+                <!-- Trash / Delete Icon -->
+                <button
+                  *appHasPermission="'canDelete'"
+                  (click)="onDeactivate(menu)"
+                  type="button"
+                  [title]="(menu.menuIsActive || menu.status === 'Active') ? 'Deactivate Menu' : 'Activate Menu'"
+                  [class]="(menu.menuIsActive || menu.status === 'Active') 
+                    ? 'p-1 transition-colors hover:text-amber-600 text-neutral-400' 
+                    : 'p-1 transition-colors hover:text-emerald-600 text-emerald-500'"
+                >
+                  <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5.636 18.364a9 9 0 010-12.728m12.728 0a9 9 0 010 12.728M12 3v9" />
+                  </svg>
+                </button>
+              </div>
+            </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

@@ -1,3 +1,106 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* ============================================
+     COLORS — derived from design system swatches
+     ============================================ */
+
+  /* Primary — near-black */
+  --color-primary-50:  #f5f5f6;
+  --color-primary-100: #e6e6e7;
+  --color-primary-200: #c7c8ca;
+  --color-primary-300: #a0a2a5;
+  --color-primary-400: #6f7175;
+  --color-primary-500: #45474a;
+  --color-primary-600: #2c2d30;
+  --color-primary-700: #1d1e20;
+  --color-primary-800: #17181a;
+  --color-primary-900: #121316; /* base */
+  --color-primary-950: #0a0a0b;
+
+  /* Secondary — purple */
+  --color-secondary-50:  #faf5ff;
+  --color-secondary-100: #f3e8ff;
+  --color-secondary-200: #e9d5ff;
+  --color-secondary-300: #d8b4fe;
+  --color-secondary-400: #c084fc;
+  --color-secondary-500: #a855f7; /* base */
+  --color-secondary-600: #9333ea;
+  --color-secondary-700: #7e22ce;
+  --color-secondary-800: #6b21a8;
+  --color-secondary-900: #581c87;
+  --color-secondary-950: #3b0764;
+
+  /* Tertiary — near-black (warm) */
+  --color-tertiary-50:  #f6f5f4;
+  --color-tertiary-100: #e8e5e2;
+  --color-tertiary-200: #cbc4bd;
+  --color-tertiary-300: #a89d92;
+  --color-tertiary-400: #766a5e;
+  --color-tertiary-500: #4a4038;
+  --color-tertiary-600: #2e261f;
+  --color-tertiary-700: #221c16;
+  --color-tertiary-800: #1c1712;
+  --color-tertiary-900: #17120f; /* base */
+  --color-tertiary-950: #0d0a08;
+
+  /* Neutral — gray */
+  --color-neutral-50:  #f7f7f7;
+  --color-neutral-100: #eeedee;
+  --color-neutral-200: #d9d8d8;
+  --color-neutral-300: #bcbbbb;
+  --color-neutral-400: #9d9b9a;
+  --color-neutral-500: #878584; /* mid */
+  --color-neutral-600: #787677; /* base */
+  --color-neutral-700: #605f5f;
+  --color-neutral-800: #464546;
+  --color-neutral-900: #2e2d2e;
+  --color-neutral-950: #1a1a1a;
+
+  /* Surface / background */
+  --color-surface: #f2f2f2;
+  --color-surface-card: #ececec;
+
+  /* Semantic (adjust as needed) */
+  --color-success-500: #22c55e;
+  --color-warning-500: #f59e0b;
+  --color-error-500:   #dc2626;
+  --color-info-500:    #3b82f6;
+
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+
+  --text-headline: 4rem;
+  --text-headline--line-height: 1;
+  --text-headline--font-weight: 700;
+
+  --text-body: 3rem;
+  --text-body--line-height: 1.1;
+  --text-body--font-weight: 500;
+
+  --text-label: 3.5rem;
+  --text-label--line-height: 1.1;
+  --text-label--font-weight: 600;
+
+  /* ============================================
+     RADIUS / SHAPE
+     ============================================ */
+  --radius-btn: 9999px;   /* pill buttons per design */
+  --radius-card: 1.25rem;
+  --radius-input: 9999px; /* pill search bar */
+
+  /* ============================================
+     SPACING (optional custom scale)
+     ============================================ */
+  --spacing-card: 1.5rem;
+}
+
+/* ============================================
+   GLOBAL BASE STYLES
+   ============================================ */
+body {
+  @apply font-sans text-tertiary-900 bg-surface antialiased;
+}

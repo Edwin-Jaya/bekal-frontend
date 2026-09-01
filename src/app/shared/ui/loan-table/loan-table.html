@@ -1,0 +1,68 @@
+<div class="overflow-x-auto">
+  <table class="w-full text-left text-sm text-neutral-800">
+    <thead>
+      <tr class="text-[0.8125rem] font-bold text-neutral-800">
+        <th class="py-4 pl-4">Application ID</th>
+        <th class="py-4">Applicant Name</th>
+        <th class="py-4">Branch</th>
+        <th class="py-4">Loan Amount</th>
+        <th class="py-4">Tenor</th>
+        <th class="py-4">Submission Date</th>
+        <th class="py-4 pr-4 text-right">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-neutral-100 text-sm">
+      @for (item of applications; track item.id) {
+        <tr class="hover:bg-neutral-50/50 transition-colors">
+          <!-- Application ID -->
+          <td class="py-5 pl-4 text-neutral-600">
+            {{ item.applicationId }}
+          </td>
+
+          <!-- Applicant Name -->
+          <td class="py-5 font-bold text-neutral-900">
+            {{ item.applicantName }}
+          </td>
+
+          <!-- Branch -->
+          <td class="py-5 text-neutral-600">
+            {{ item.branch }}
+          </td>
+
+          <!-- Loan Amount -->
+          <td class="py-5 font-bold text-neutral-900">
+            {{ item.loanAmount }}
+          </td>
+
+          <!-- Tenor -->
+          <td class="py-5 text-neutral-600">
+            {{ item.tenor }}
+          </td>
+
+          <!-- Submission Date -->
+          <td class="py-5 text-neutral-600">
+            {{ item.submissionDate }}
+          </td>
+
+          <!-- Actions -->
+          <td class="py-4 pr-4 text-right">
+            <button
+              *appHasPermission="'canApprove'"
+              (click)="onReview(item)"
+              type="button"
+              class="rounded-full bg-black px-6 py-2 text-xs font-semibold text-white transition-colors hover:bg-neutral-800"
+            >
+              Review
+            </button>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="7" class="py-8 text-center text-neutral-400 italic">
+            No loan applications found.
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

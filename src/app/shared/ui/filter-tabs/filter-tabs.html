@@ -1,0 +1,14 @@
+    <div class="flex items-center gap-2">
+      <button
+        *ngFor="let tab of tabs"
+        (click)="selectTab(tab)"
+        type="button"
+        [ngClass]="{
+          'bg-secondary-100 text-secondary-700 font-bold': activeTab === tab,
+          'bg-neutral-100 text-neutral-600 hover:bg-neutral-200/70 font-semibold': activeTab !== tab
+        }"
+        class="rounded-full px-5 py-2 text-xs transition-all duration-200"
+      >
+        {{ tab }}
+      </button>
+    </div>

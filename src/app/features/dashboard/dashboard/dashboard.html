@@ -1,0 +1,65 @@
+<div class="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-secondary-100 via-white to-secondary-200 p-6 md:p-8">
+  
+  <!-- Decorative Glow Orbs (Scoped only to dashboard background) -->
+  <div class="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-secondary-300/40 blur-3xl"></div>
+  <div class="pointer-events-none absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-secondary-200/50 blur-3xl"></div>
+
+  <!-- Dashboard Main Layout (z-10) -->
+  <div class="relative z-10 mx-auto max-w-7xl space-y-6">
+
+    <!-- Title -->
+    <div>
+      <h1 class="text-3xl font-extrabold tracking-tight text-neutral-900">Admin Overview</h1>
+    </div>
+
+    <!-- Row 1: Top Metric Cards (5 Cards) -->
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <app-metric-card
+        title="Total Pengajuan"
+        value="Rp 2.5B"
+        subtext="142 Files"
+        subtextColor="purple"
+      />
+      <app-metric-card
+        title="Antrean Review"
+        value="45"
+        subtext="Marketing Team"
+        subtextColor="gray"
+      />
+      <app-metric-card
+        title="Antrean Approval"
+        value="12"
+        subtext="Branch Manager"
+        subtextColor="gray"
+      />
+      <app-metric-card
+        title="Antrean Pencairan"
+        value="8"
+        subtext="Ready"
+        subtextColor="green"
+      />
+      <app-metric-card
+        title="Total Dicairkan"
+        value="Rp 1.18B"
+        subtext="Accumulative"
+        subtextColor="gray"
+      />
+    </div>
+
+    <!-- Row 2: Charts (Operational Trend & Bottleneck Status) -->
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div class="lg:col-span-2">
+        <app-operational-trend-chart />
+      </div>
+      <div class="lg:col-span-1">
+        <app-bottleneck-status-chart />
+      </div>
+    </div>
+
+    <!-- Row 3: Activity Log & Recent Submissions Table -->
+    <div class="w-full">
+      <app-recent-activity-table />
+    </div>
+
+  </div>
+</div>
