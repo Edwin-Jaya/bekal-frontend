@@ -22,6 +22,15 @@
     "serve:ssr:angular-practice": "node dist/angular-practice/server/server.mjs"
   },
   "private": true,
+  "dependencies": {
+    "@angular/common": "^22.1.4",
+    "@angular/core": "^22.1.4",
+    "@angular/forms": "^22.1.4",
+    "@angular/platform-browser": "^22.1.4",
+    "@angular/router": "^22.1.4",
+    "@angular/ssr": "^22.1.6",
+    "express": "^5.2.1"
+  },
   "devDependencies": {
     "@angular/build": "^22.1.6",
     "@tailwindcss/postcss": "^4.3.3",
@@ -34,14 +43,5 @@
     "karma-coverage": "^2.2.1",
     "karma-jasmine": "^5.1.0",
     "karma-jasmine-html-reporter": "^2.3.0"
-  },
-  "dependencies": {
-    "@angular/common": "^22.1.4",
-    "@angular/core": "^22.1.4",
-    "@angular/forms": "^22.1.4",
-    "@angular/platform-browser": "^22.1.4",
-    "@angular/router": "^22.1.4",
-    "@angular/ssr": "^22.1.6",
-    "express": "^5.2.1"
   }
 }
