@@ -1,11 +1,28 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,
-  "cli": {
-    "packageManager": "npm"
+  "name": "angular-practice",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "start:dev": "ng serve --configuration=development",
+    "build:dev": "ng build --configuration=development",
+    "build:staging": "ng build --configuration=staging",
+    "start:staging": "ng serve --configuration=staging",
+    "start:prod": "ng serve --configuration=production",
+    "build:prod": "ng build --configuration=production",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "test:ci": "ng test --watch=false",
+    "test:coverage": "ng test --watch=false --coverage",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.spec.json --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "serve:ssr:angular-practice": "node dist/angular-practice/server/server.mjs"
   },
-  "newProjectRoot": "projects",
-  "projects": {
+  "private": true,
+"projects": {
     "bekal": {
       "projectType": "application",
       "schematics": {},
