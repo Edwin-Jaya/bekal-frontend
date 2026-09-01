@@ -1,9 +1,9 @@
 import { Component, inject, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MenuItem } from './models/menu-management.model';
+import { MenuItem } from './models/menu-management-model';
 import { MenuTable } from '../../shared/ui/menu-table/menu-table';
 import { FilterTabs } from '../../shared/ui/filter-tabs/filter-tabs';
-import { Menu } from './services/menu';
+import { ManagementMenuService } from './services/menu-management-service';
 import { AddMenuModal } from './components/add-menu-modal/add-menu-modal';
 import { HasPermission } from '../../shared/directives/has-permission/has-permission';
 
@@ -15,7 +15,7 @@ import { HasPermission } from '../../shared/directives/has-permission/has-permis
   styleUrl: './menu-management.css',
 })
 export class MenuManagement implements OnInit {
-  private menuService = inject(Menu);
+  private menuService = inject(ManagementMenuService);
   private cdr = inject(ChangeDetectorRef);
 
   currentPage: number = 1;

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { AccessTable } from '../../shared/ui/access-table/access-table';
-import { RoleMenuAccess } from './services/role-menu-access';
-import { RoleMenuAccessItem, RoleOption, SaveRoleMenuAccessRequest } from './models/access.model';
+import { AccessManagementService } from './services/access-management-service';
+import { RoleMenuAccessItem, RoleOption, SaveRoleMenuAccessRequest } from './models/access-management-model';
 import { RoleFilter } from '../../shared/ui/role-filter/role-filter';
 import { Pagination } from '../../shared/ui/pagination/pagination';
 import { finalize } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { finalize } from 'rxjs/operators';
   styleUrl: './access-management.css',
 })
 export class AccessManagement implements OnInit{
-  private roleAccessService = inject(RoleMenuAccess);
+  private roleAccessService = inject(AccessManagementService);
   private cdr = inject(ChangeDetectorRef);
 
   roles: RoleOption[] = []; // Diisi dari Master Role Service Anda

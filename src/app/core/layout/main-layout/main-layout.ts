@@ -1,10 +1,9 @@
 import { Component, inject, ChangeDetectionStrategy, computed, signal, OnInit } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthApiService } from '../../auth/auth-api.service';
-import { MenuService } from '../../services/menu'; // <--- Import MenuService
+import { AuthApiService } from '../../auth/auth-api-service';
+import { MenuService } from '../../services/menu-service'; 
 import { CommonModule } from '@angular/common';
 import { IconButton } from '../../../shared/ui/icon-button/icon-button';
-import { ButtonComponent } from '../../../shared/ui/button/button';
 
 export interface Breadcrumb {
   label: string;
@@ -19,7 +18,6 @@ export interface Breadcrumb {
     RouterLink,
     RouterLinkActive,
     RouterOutlet,
-    ButtonComponent,
     IconButton,
   ],
   templateUrl: './main-layout.html',

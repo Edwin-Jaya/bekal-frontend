@@ -20,7 +20,7 @@ export const routes: Routes = [
         children:[
             {
                 path:'admin/dashboard',
-                loadComponent: () => import('./features/dashboard/dashboard/dashboard').then(m => m.Dashboard),
+                loadComponent: () => import('./features/dashboard/super-admin-dashboard/super-admin-dashboard').then(m => m.SuperAdminDashboard),
                 // canActivate:[permissionGuard]
             },
             {
@@ -57,16 +57,16 @@ export const routes: Routes = [
             },
                        {
                 path:'marketing/loan-reviews',
-                loadComponent: () => import('./features/loan-reviews/loan-review-list/loan-review-list').then(m => m.LoanReviewList),
+                loadComponent: () => import('./features/loan-review/loan-review-list/loan-review-list').then(m => m.LoanReviewList),
                 canActivate:[permissionGuard]
             },
                                   {
                 path:'marketing/loan-reviews/:id',
-                loadComponent: () => import('./features/loan-reviews/loan-review-detail/loan-review-detail').then(m => m.LoanReviewDetail),
+                loadComponent: () => import('./features/loan-review/loan-review-detail/loan-review-detail').then(m => m.LoanReviewDetail),
                 // canActivate:[permissionGuard]
             },                                  {
                 path:'marketing/history',
-                loadComponent: () => import('./features/loan-reviews/loan-review-history/loan-review-history').then(m => m.LoanReviewHistory),
+                loadComponent: () => import('./features/loan-review/loan-review-history/loan-review-history').then(m => m.LoanReviewHistory),
                 // canActivate:[permissionGuard]
             }
         ]
@@ -83,16 +83,16 @@ export const routes: Routes = [
             },
                        {
                 path:'branch-manager/loan-approvals',
-                loadComponent: () => import('./features/loan-approvals/loan-approval-list/loan-approval-list').then(m => m.LoanApprovalList),
+                loadComponent: () => import('./features/loan-approval/loan-approval-list/loan-approval-list').then(m => m.LoanApprovalList),
                 canActivate:[permissionGuard]
             },
                                   {
                 path:'branch-manager/loan-approvals/:id',
-                loadComponent: () => import('./features/loan-approvals/loan-approval-detail/loan-approval-detail').then(m => m.LoanApprovalDetail),
+                loadComponent: () => import('./features/loan-approval/loan-approval-detail/loan-approval-detail').then(m => m.LoanApprovalDetail),
                 // canActivate:[permissionGuard]
             },                                  {
                 path:'branch-manager/history',
-                loadComponent: () => import('./features/loan-approvals/loan-approvals-history/loan-approvals-history').then(m => m.LoanApprovalsHistory),
+                loadComponent: () => import('./features/loan-approval/loan-approval-history/loan-approval-history').then(m => m.LoanApprovalsHistory),
                 // canActivate:[permissionGuard]
             }
         ]

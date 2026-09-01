@@ -2,7 +2,7 @@ import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/cor
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
-import { AuthApiService } from '../../../core/auth/auth-api.service';
+import { AuthApiService } from '../../../core/auth/auth-api-service';
 import { ButtonComponent } from "../../../shared/ui/button/button";
 
 @Component({

@@ -2,8 +2,8 @@ import { Component, inject, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RoleTable } from '../../shared/ui/role-table/role-table';
 import { FilterTabs } from '../../shared/ui/filter-tabs/filter-tabs';
-import { Role } from './services/role';
-import { RoleItem } from './models/role.model';
+import { RoleManagementService } from './services/role-management-service';
+import { RoleItem } from './models/role-management-model';
 import { AddRoleModal } from './components/add-role-modal/add-role-modal';
 import { HasPermission } from '../../shared/directives/has-permission/has-permission';
 
@@ -14,7 +14,7 @@ import { HasPermission } from '../../shared/directives/has-permission/has-permis
   templateUrl: './role-management.html'
 })
 export class RoleManagement implements OnInit{
-  private roleService = inject(Role);
+  private roleService = inject(RoleManagementService);
 
   currentPage: number = 1;
   totalPages: number = 1;

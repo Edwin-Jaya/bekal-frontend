@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
-import { MenuItem } from '../../../features/menu-management/models/menu-management.model';
+import { MenuItem } from '../../../features/menu-management/models/menu-management-model';
 import { HasPermission } from '../../directives/has-permission/has-permission';
 
 @Component({

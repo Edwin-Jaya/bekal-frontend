@@ -1,52 +1,54 @@
-import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { LoanDisbursementService } from '../services/loan-disbursement-service';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { LoanDisbursementDetailInterface, SubmitDisbursementPayload } from '../models/loan-disbursement-model';
-import { CommonModule, Location } from '@angular/common';
+import { ChangeDetectorRef, Component, Input, OnInit, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { LoanReviewService } from '../services/loan-review-service';
+import { LoanReviewDetailInterface, SubmitReviewPayload } from '../models/loan-review-model';
+import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-loan-disbursement-detail',
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './loan-disbursement-detail.html',
-  styleUrl: './loan-disbursement-detail.css',
+  selector: 'app-loan-review-detail',
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  templateUrl: './loan-review-detail.html',
+  styleUrl: './loan-review-detail.css',
 })
-export class LoanDisbursementDetail implements OnInit{
-   @Input() id!: string;
+export class LoanReviewDetail implements OnInit {
+  @Input() id!: string;
 
   private route = inject(ActivatedRoute);
-  private loanService = inject(LoanDisbursementService);
+  private loanService = inject(LoanReviewService);
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
   private location = inject(Location);
   private router = inject(Router);
 
-  detailData?: LoanDisbursementDetailInterface;
+  detailData?: LoanReviewDetailInterface;
   isLoading = true;
   isSubmitting = false;
 
   reviewForm: FormGroup = this.fb.group({
     decision: ['APPROVED', Validators.required],
+    verifiedIncome: [0, [Validators.required, Validators.min(0)]],
+    notes: ['', [Validators.required, Validators.minLength(5)]]
   });
 
-  ngOnInit(): void {
-      // Fallback to route snapshot if @Input binding is not passed
-      const activeId = this.id || this.route.snapshot.paramMap.get('id');
+ngOnInit(): void {
+    // Fallback to route snapshot if @Input binding is not passed
+    const activeId = this.id || this.route.snapshot.paramMap.get('id');
 
-      if (activeId) {
-        this.id = activeId;
-        this.fetchDetailData();
-      } else {
-        console.error('No review ID found in route URL');
-        this.isLoading = false;
-        this.cdr.markForCheck();
-      }
+    if (activeId) {
+      this.id = activeId;
+      this.fetchDetailData();
+    } else {
+      console.error('No review ID found in route URL');
+      this.isLoading = false;
+      this.cdr.markForCheck();
     }
+  }
 
   fetchDetailData(): void {
     this.isLoading = true;
-    console.log(this.id);
-    this.loanService.getApprovalDetail(this.id).subscribe({
+    this.loanService.getReviewDetail(this.id).subscribe({
       next: (data) => {
         this.detailData = data;
         this.isLoading = false;
@@ -88,16 +90,18 @@ export class LoanDisbursementDetail implements OnInit{
 
     this.isSubmitting = true;
 
-    const payload: SubmitDisbursementPayload = {
+    const payload: SubmitReviewPayload = {
       loanApplicationId: this.id,
-      status: this.reviewForm.value.decision,
+      result: this.reviewForm.value.decision,
+      verifiedIncome: Number(this.reviewForm.value.verifiedIncome),
+      notes: this.reviewForm.value.notes
     };
 
-    this.loanService.submitDisbursement(payload).subscribe({
+    this.loanService.submitReview(payload).subscribe({
       next: (response) => {
         this.isSubmitting = false;
         alert('Loan review successfully submitted!');
-        this.router.navigate(['back-office/loan-disbursement']); // Redirect ke halaman daftar antrean
+        this.router.navigate(['/marketing/loan-reviews']); // Redirect ke halaman daftar antrean
       },
       error: (err) => {
         this.isSubmitting = false;
@@ -153,5 +157,4 @@ export class LoanDisbursementDetail implements OnInit{
     console.warn('No file URL found for document:', doc);
   }
 }
-
 }

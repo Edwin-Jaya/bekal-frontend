@@ -1,0 +1,35 @@
+<div class="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-secondary-100 via-white to-secondary-200 p-6 md:p-8">
+  
+  <!-- Decorative Glow Orbs -->
+  <div class="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-secondary-300/40 blur-3xl"></div>
+  <div class="pointer-events-none absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-secondary-200/50 blur-3xl"></div>
+    <!-- Main Container -->
+  <div class="relative z-10 mx-auto max-w-7xl space-y-6">
+
+    <!-- Header Section -->
+    <div class="flex items-center justify-between">
+      <h1 class="text-3xl font-extrabold tracking-tight text-neutral-900">Loan Approval</h1>
+    </div>
+        <!-- Card Container Utama -->
+      <div class="rounded-[1.5rem] border border-white/60 bg-white/70 p-6 shadow-sm backdrop-blur-md space-y-6">
+
+        <app-loan-table
+          [applications]="allApplications"
+          (review)="onReview($event)"
+        />
+
+        <!-- Table Footer / Pagination -->
+          @if (totalElements > 0) {
+            <app-pagination
+              [currentPage]="currentPage"
+              [totalPages]="totalPages"
+              [totalElements]="totalElements"
+              [pageSize]="pageSize"
+              (pageChange)="onPageChanged($event)"
+            />
+          }
+
+        </div>
+
+      </div>
+</div>

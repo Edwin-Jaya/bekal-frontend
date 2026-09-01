@@ -1,7 +1,7 @@
 import { Component, Directive, inject, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { MenuService } from '../../../core/services/menu';
+import { MenuService } from '../../../core/services/menu-service';
 import { Router } from '@angular/router';
-import { MenuItem } from '../../../core/models/menu.model';
+import { MenuItem } from '../../../core/models/menu-model';
 
 export type PermissionAction = 'canCreate' | 'canEdit' | 'canDelete' | 'canApprove';
 

@@ -5,7 +5,7 @@ import { CreateUserItem, UserItem } from './models/user.model';
 import { FilterTabs } from '../../shared/ui/filter-tabs/filter-tabs';
 import { UserTable } from '../../shared/ui/user-table/user-table';
 import { AddUserModal } from './components/add-user-modal/add-user-modal';
-import { User } from './services/user'; // Direct Import Service
+import { UserManagementService } from './services/user-management-service'; // Direct Import Service
 import { HasPermission } from '../../shared/directives/has-permission/has-permission';
 
 @Component({
@@ -21,7 +21,7 @@ import { HasPermission } from '../../shared/directives/has-permission/has-permis
   templateUrl: './user-management.html'
 })
 export class UserManagement implements OnInit {
-  private userService = inject(User);
+  private userService = inject(UserManagementService);
   private platformId = inject(PLATFORM_ID);
   private cdr = inject(ChangeDetectorRef);
 

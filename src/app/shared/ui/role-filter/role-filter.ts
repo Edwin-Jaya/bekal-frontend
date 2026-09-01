@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RoleOption } from '../../../features/access-management/models/access.model';
+import { RoleOption } from '../../../features/access-management/models/access-management-model';
 
 @Component({
   selector: 'app-role-filter',

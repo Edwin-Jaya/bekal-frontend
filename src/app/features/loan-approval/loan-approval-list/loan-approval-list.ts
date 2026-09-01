@@ -2,18 +2,18 @@ import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Pagination } from '../../../shared/ui/pagination/pagination';
 import { LoanTable } from '../../../shared/ui/loan-table/loan-table';
 import { LoanApplicationItem } from '../../loan-review/models/loan-review-model';
-import { LoanDisbursementService } from '../services/loan-disbursement-service';
+import { LoanApprovalService } from '../services/loan-approval-service';
 import { Router } from '@angular/router';
-
+import { LoanApprovalDetailInterface } from '../models/loan-approval-model';
 
 @Component({
-  selector: 'app-loan-disbursement-list',
+  selector: 'app-loan-approval-list',
   imports: [Pagination, LoanTable],
-  templateUrl: './loan-disbursement-list.html',
-  styleUrl: './loan-disbursement-list.css',
+  templateUrl: './loan-approval-list.html',
+  styleUrl: './loan-approval-list.css',
 })
-export class LoanDisbursementList implements OnInit{
-    private loanApplicationService = inject(LoanDisbursementService);
+export class LoanApprovalList implements OnInit {
+    private loanApplicationService = inject(LoanApprovalService);
     private cdr = inject(ChangeDetectorRef);
     private router=inject(Router);
 
@@ -33,7 +33,7 @@ export class LoanDisbursementList implements OnInit{
     }
 
     onReview(item: LoanApplicationItem){
-      this.router.navigate(['/back-office/loan-disbursement/', item.id]);
+      this.router.navigate(['/branch-manager/loan-approvals/', item.id]);
     }
     
     ngOnInit(): void {
@@ -59,7 +59,7 @@ export class LoanDisbursementList implements OnInit{
         timeZone: 'Asia/Jakarta'
       });
 
-      this.loanApplicationService.getPendingLoanApplicationDisbursement(this.currentPage, 10).subscribe({
+      this.loanApplicationService.getPendingLoanApplicationApproval(this.currentPage, 10).subscribe({
         next: (response) => {
           this.allApplications = response.content.map((item: any) => ({
             id: item.id,
@@ -85,5 +85,6 @@ export class LoanDisbursementList implements OnInit{
         }
       });
   }
+
 
 }

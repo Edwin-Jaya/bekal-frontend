@@ -1,22 +1,21 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
-import { LoanDisbursementService } from '../services/loan-disbursement-service';
-import { LoanHistoryDisbursementResponse } from '../models/loan-disbursement-model';
-import { CommonModule } from '@angular/common';
+import { LoanHistoryResponse } from '../models/loan-review-model';
+import { LoanReviewService } from '../services/loan-review-service';
 import { Pagination } from '../../../shared/ui/pagination/pagination';
+import { CommonModule } from '@angular/common';
 import { ReviewHistoryTable } from '../../../shared/ui/review-history-table/review-history-table';
-import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-loan-disbursement-history',
-  imports: [CommonModule, Pagination, ReviewHistoryTable, ReactiveFormsModule],
-  templateUrl: './loan-disbursement-history.html',
-  styleUrl: './loan-disbursement-history.css',
+  selector: 'app-loan-review-history',
+  imports: [ReviewHistoryTable, Pagination, CommonModule],
+  templateUrl: './loan-review-history.html',
+  styleUrl: './loan-review-history.css',
 })
-export class LoanDisbursementHistory {
-  private loanApplicationService = inject(LoanDisbursementService);
+export class LoanReviewHistory {
+  private loanApplicationService = inject(LoanReviewService);
   private cdr = inject(ChangeDetectorRef)
 
-  allHistories: LoanHistoryDisbursementResponse[] = [];
+  allHistories: LoanHistoryResponse[] = [];
   currentPage: number = 1;
   totalPages: number = 1;
   isLoading = false;
@@ -52,7 +51,7 @@ export class LoanDisbursementHistory {
       timeZone: 'Asia/Jakarta'
     });
     
-    this.loanApplicationService.getLoanDisbursementHistory(this.currentPage, 10).subscribe({
+    this.loanApplicationService.getLoanReviewHistory(this.currentPage, 10).subscribe({
       next: (response) => {
         this.allHistories = response.content.map((item: any) => ({
           id: item.applicationId,                                                  
@@ -60,8 +59,10 @@ export class LoanDisbursementHistory {
           applicationNumber: item.applicationNumber || '-',
           customerFullName: item.customerName || '-',                              
           amountRequested: item.amountRequested ?? 0,                              
-          status: item.currentStatus || '-',                                                                                                            
-          createdAt: item.disbursedAt ? dateFormatter.format(new Date(item.disbursedAt)) : '-' 
+          status: item.currentStatus || '-',                                       
+          result: item.reviewResult || '-',                                        
+          notes: item.reviewNotes || '-',                                          
+          createdAt: item.reviewedAt ? dateFormatter.format(new Date(item.reviewedAt)) : '-' 
         }));
         console.log(response);
         this.totalPages = response.totalPages;

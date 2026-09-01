@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { MenuService } from '../services/menu';
-import { MenuItem } from '../models/menu.model';
+import { MenuService } from '../services/menu-service';
+import { MenuItem } from '../models/menu-model';
 import { map } from 'rxjs';
 
 export const permissionGuard: CanActivateFn = (route, state) => {

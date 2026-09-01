@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Menu } from '../../services/menu';
+import { ManagementMenuService } from '../../services/menu-management-service';
 
 @Component({
   selector: 'app-add-menu-modal',
@@ -18,7 +18,7 @@ export class AddMenuModal implements OnChanges {
   @Output() closeModal = new EventEmitter<void>();
   @Output() menuSaved = new EventEmitter<{ id?: string; data: any }>();
 
-  private menuService = inject(Menu);
+  private menuService = inject(ManagementMenuService);
   private fb = inject(FormBuilder);
 
   menuForm: FormGroup;

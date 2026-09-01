@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 
 import { Login } from './login';
-import { AuthApiService } from '../../../core/auth/auth-api.service';
+import { AuthApiService } from '../../../core/auth/auth-api-service';
 
 describe('Login', () => {
   let component: Login;

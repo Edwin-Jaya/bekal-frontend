@@ -1,32 +1,35 @@
 import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { LoanDisbursementService } from '../services/loan-disbursement-service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { LoanDisbursementDetailInterface, SubmitDisbursementPayload } from '../models/loan-disbursement-model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoanApprovalDetailInterface, SubmitPayload } from '../models/loan-approval-model';
+import { LoanApprovalList } from '../loan-approval-list/loan-approval-list';
+import { LoanApprovalService } from '../services/loan-approval-service';
 import { CommonModule, Location } from '@angular/common';
 
 @Component({
-  selector: 'app-loan-disbursement-detail',
+  selector: 'app-loan-approval-detail',
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './loan-disbursement-detail.html',
-  styleUrl: './loan-disbursement-detail.css',
+  templateUrl: './loan-approval-detail.html',
+  styleUrl: './loan-approval-detail.css',
 })
-export class LoanDisbursementDetail implements OnInit{
-   @Input() id!: string;
+export class LoanApprovalDetail implements OnInit{
+  @Input() id!: string;
 
   private route = inject(ActivatedRoute);
-  private loanService = inject(LoanDisbursementService);
+  private loanService = inject(LoanApprovalService);
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
   private location = inject(Location);
   private router = inject(Router);
 
-  detailData?: LoanDisbursementDetailInterface;
+  detailData?: LoanApprovalDetailInterface;
   isLoading = true;
   isSubmitting = false;
 
   reviewForm: FormGroup = this.fb.group({
     decision: ['APPROVED', Validators.required],
+    verifiedIncome: [0, [Validators.required, Validators.min(0)]],
+    notes: ['', [Validators.required, Validators.minLength(5)]]
   });
 
   ngOnInit(): void {
@@ -88,16 +91,18 @@ export class LoanDisbursementDetail implements OnInit{
 
     this.isSubmitting = true;
 
-    const payload: SubmitDisbursementPayload = {
+    const payload: SubmitPayload = {
       loanApplicationId: this.id,
-      status: this.reviewForm.value.decision,
+      result: this.reviewForm.value.decision,
+      verifiedIncome: Number(this.reviewForm.value.verifiedIncome),
+      notes: this.reviewForm.value.notes
     };
 
-    this.loanService.submitDisbursement(payload).subscribe({
+    this.loanService.submitApproval(payload).subscribe({
       next: (response) => {
         this.isSubmitting = false;
         alert('Loan review successfully submitted!');
-        this.router.navigate(['back-office/loan-disbursement']); // Redirect ke halaman daftar antrean
+        this.router.navigate(['/dashboard/loan-approval']); // Redirect ke halaman daftar antrean
       },
       error: (err) => {
         this.isSubmitting = false;
