@@ -16,7 +16,7 @@ export class AccessManagement implements OnInit{
   private roleAccessService = inject(AccessManagementService);
   private cdr = inject(ChangeDetectorRef);
 
-  roles: RoleOption[] = []; // Diisi dari Master Role Service Anda
+  roles: RoleOption[] = []; 
   matrix: RoleMenuAccessItem[] = [];
   selectedRoleId: string = '';
   isLoadingRoles = false;
@@ -29,8 +29,9 @@ export class AccessManagement implements OnInit{
   totalPages = 0;
   totalElements = 0;
 
+  modifiedItemsCache = new Map<string, RoleMenuAccessItem>();
+
   ngOnInit(): void {
-    // Load Master Role pilihan (contoh dummy / fetch dari RoleService)
     this.fetchRoles();
   }
 
@@ -41,7 +42,6 @@ export class AccessManagement implements OnInit{
         this.roles = data;
         this.isLoadingRoles = false;
         
-        // Opsional: Otomatis pilih role pertama jika ada data
         if (this.roles.length > 0) {
           this.onRoleSelected(this.roles[0].id);
         }
@@ -56,6 +56,7 @@ export class AccessManagement implements OnInit{
   onRoleSelected(roleId: string): void {
     this.selectedRoleId = roleId;
     this.currentPage = 0;
+    this.modifiedItemsCache.clear(); 
     this.loadMatrix();
   }
 
@@ -70,7 +71,18 @@ export class AccessManagement implements OnInit{
     this.isLoading = true;
     this.roleAccessService.getMatrixByRole(this.selectedRoleId, this.currentPage, this.pageSize).subscribe({
       next: (res) => {
-        this.matrix = res.content;
+        // NEW: Merge backend data with local cache
+        this.matrix = res.content.map(item => {
+          // TODO: Replace 'menuId' with the actual unique identifier property of your RoleMenuAccessItem model
+          const itemId = item.menuId; 
+          
+          // If the user previously modified this item, use the modified version
+          if (this.modifiedItemsCache.has(itemId)) {
+            return this.modifiedItemsCache.get(itemId)!;
+          }
+          return item;
+        });
+
         this.totalPages = res.totalPages;
         this.totalElements = res.totalElements;
         this.isLoading = false;
@@ -82,24 +94,38 @@ export class AccessManagement implements OnInit{
 
   onMatrixUpdated(updatedMatrix: RoleMenuAccessItem[]): void {
     this.matrix = updatedMatrix;
+    
+    // NEW: Save the modifications to our local cache
+    updatedMatrix.forEach(item => {
+      // TODO: Replace 'menuId' with the actual unique identifier property
+      const itemId = item.menuId;
+      this.modifiedItemsCache.set(itemId, item);
+    });
   }
 
   onSave(): void {
-    if (!this.selectedRoleId || this.matrix.length === 0) return;
+    if (!this.selectedRoleId || this.modifiedItemsCache.size === 0) return;
 
     this.isSaving = true;
     this.successMessage = '';
     this.errorMessage = '';
 
-    this.roleAccessService.assignPermissions(this.selectedRoleId, this.matrix).subscribe({
+    // NEW: Send the cached modified items to the backend, not just the current page
+    const payload = Array.from(this.modifiedItemsCache.values());
+
+    this.roleAccessService.assignPermissions(this.selectedRoleId, payload).subscribe({
       next: () => {
         this.isSaving = false;
         this.successMessage = 'Perubahan hak akses berhasil disimpan!';
-        this.cdr.detectChanges(); // <-- force render
+        
+        // Clear cache after successful save
+        this.modifiedItemsCache.clear();
+        
+        this.cdr.detectChanges();
 
         setTimeout(() => {
           this.successMessage = '';
-          this.cdr.detectChanges(); // <-- force render again when message clears
+          this.cdr.detectChanges();
         }, 3000);
       },
       error: (err) => {
