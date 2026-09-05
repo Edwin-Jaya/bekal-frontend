@@ -6,8 +6,7 @@ import { permissionGuard } from './core/guards/permission-guard';
 export const routes: Routes = [
     {
         path:'',
-        redirectTo:'login',
-        pathMatch: 'full'
+        loadComponent:()=>import('./features/landing/landing').then(m=>m.Landing)
     },
     {
         path:'login',
