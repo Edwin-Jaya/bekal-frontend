@@ -50,7 +50,7 @@ interface MultiBoxSpec {
 
       <!-- Label Directly Below Object -->
       <div
-        class="pointer-events-none mt-2 pb-2 text-center text-sm font-semibold tracking-[0.3em] uppercase text-gray-700 transition-opacity duration-500 z-10"
+        class="pointer-events-none mt-2 pb-2 text-center text-sm font-semibold tracking-[0.3em] uppercase text-gray-100 transition-opacity duration-500 z-10"
         [class.opacity-0]="isTransitioning() || currentLabel() === 'Sphere'"
         [class.opacity-100]="!isTransitioning() && currentLabel() !== 'Sphere'"
       >
@@ -124,15 +124,22 @@ export class MorphingObject implements OnInit, OnDestroy {
     this.envTexture = this.pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
     this.scene.environment = this.envTexture;
 
-    this.keyLight = new THREE.DirectionalLight(0xfff5e6, 2.6);
-    this.keyLight.position.set(4, 5, 4);
+    // 1. High-contrast Key Light
+    this.keyLight = new THREE.DirectionalLight(0xffffff, 3.8);
+    this.keyLight.position.set(5, 6, 5);
     this.scene.add(this.keyLight);
 
-    this.fillLight = new THREE.DirectionalLight(0x88adff, 1.4);
-    this.fillLight.position.set(-4, -2, -3);
+    // 2. Cool Tinted Fill Light
+    this.fillLight = new THREE.DirectionalLight(0x818cf8, 1.8);
+    this.fillLight.position.set(-5, -2, -3);
     this.scene.add(this.fillLight);
 
-    this.scene.add(new THREE.AmbientLight(0xffffff, 0.45));
+    // 3. NEW: Strong Rim Light from behind to carve out sharp object edges
+    const rimLight = new THREE.DirectionalLight(0xc7d2fe, 4.5);
+    rimLight.position.set(0, 4, -6);
+    this.scene.add(rimLight);
+
+    this.scene.add(new THREE.AmbientLight(0xffffff, 0.55));
 
     const { spherePositions, housePositions, carPositions, walletPositions, sphereColors, houseColors, carColors, walletColors } =
       this.buildProceduralModels();
@@ -141,13 +148,14 @@ export class MorphingObject implements OnInit, OnDestroy {
     geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(spherePositions), 3));
     geometry.setAttribute('color', new THREE.BufferAttribute(new Float32Array(sphereColors), 3));
 
+    // 4. Sharpened Material Reflection & Metallic Sheen
     const material = new THREE.MeshPhysicalMaterial({
       vertexColors: true,
-      roughness: 0.22,
-      metalness: 0.05,
-      clearcoat: 0.85,
-      clearcoatRoughness: 0.08,
-      envMapIntensity: 1.3,
+      roughness: 0.12,          // Lowered roughness for sharp, clear highlights
+      metalness: 0.15,          // Slight metallic sheen for higher contrast
+      clearcoat: 1.0,           // Maximum specular clearcoat layer
+      clearcoatRoughness: 0.04, // Mirror-smooth clearcoat reflections
+      envMapIntensity: 2.2,     // Boosted environment map intensity
       side: THREE.DoubleSide,
     });
 
