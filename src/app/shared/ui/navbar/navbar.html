@@ -1,0 +1,52 @@
+<nav class="fixed top-0 left-0 z-50 w-full border-b border-white/10 bg-slate-950/60 backdrop-blur-md">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-12">
+
+    <a href="#" class="flex items-center gap-2 text-xl font-extrabold tracking-tight text-white">
+      <span class="h-2.5 w-2.5 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 shadow-[0_0_12px_rgba(129,140,248,0.8)]"></span>
+      Bekal<span class="bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent"></span>
+    </a>
+
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#proses" class="text-sm font-medium text-indigo-100/80 hover:text-white transition-colors">Cara Kerja</a>
+      <a href="#keamanan" class="text-sm font-medium text-indigo-100/80 hover:text-white transition-colors">Keamanan</a>
+      <!-- <a href="#" class="text-sm font-medium text-indigo-100/80 hover:text-white transition-colors">Simulasi</a>
+      <a href="#" class="text-sm font-medium text-indigo-100/80 hover:text-white transition-colors">FAQ</a> -->
+    </div>
+
+    <div class="hidden md:block">
+      <button class="rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-105 transition-all">
+        Ajukan Sekarang
+      </button>
+    </div>
+
+    <button
+      (click)="toggleMenu()"
+      class="md:hidden relative z-50 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white"
+      [attr.aria-expanded]="isMenuOpen()"
+      aria-label="Toggle menu"
+    >
+      <svg *ngIf="!isMenuOpen()" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <svg *ngIf="isMenuOpen()" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <div
+    class="md:hidden overflow-hidden transition-all duration-300 ease-in-out"
+    [class.max-h-96]="isMenuOpen()"
+    [class.max-h-0]="!isMenuOpen()"
+  >
+    <div class="flex flex-col gap-1 border-t border-white/10 bg-slate-950/80 px-6 py-4 backdrop-blur-md">
+      <a (click)="closeMenu()" href="#proses" class="rounded-lg px-3 py-3 text-sm font-medium text-indigo-100/80 hover:bg-white/5 hover:text-white transition-colors">Cara Kerja</a>
+      <a (click)="closeMenu()" href="#keamanan" class="rounded-lg px-3 py-3 text-sm font-medium text-indigo-100/80 hover:bg-white/5 hover:text-white transition-colors">Keamanan</a>
+      <a (click)="closeMenu()" href="#" class="rounded-lg px-3 py-3 text-sm font-medium text-indigo-100/80 hover:bg-white/5 hover:text-white transition-colors">Simulasi</a>
+      <a (click)="closeMenu()" href="#" class="rounded-lg px-3 py-3 text-sm font-medium text-indigo-100/80 hover:bg-white/5 hover:text-white transition-colors">FAQ</a>
+      <button (click)="closeMenu()" class="mt-2 w-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30">
+        Ajukan Sekarang
+      </button>
+    </div>
+  </div>
+</nav>
