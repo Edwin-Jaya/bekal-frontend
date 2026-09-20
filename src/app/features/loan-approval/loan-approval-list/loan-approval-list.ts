@@ -17,7 +17,7 @@ export class LoanApprovalList implements OnInit {
     private cdr = inject(ChangeDetectorRef);
     private router=inject(Router);
 
-    currentPage: number = 1;
+    currentPage: number = 0;
     totalPages: number = 1;
     isLoading = false;
     totalElements = 0;
@@ -43,6 +43,11 @@ export class LoanApprovalList implements OnInit {
     loadApplication(): void {
       this.isLoading = true;
 
+      // ✅ Guard: pastikan tidak pernah negatif
+      if (this.currentPage < 0) {
+        this.currentPage = 0;
+      }
+
       // Formatter Rupiah (contoh hasil: Rp 50.000.000)
       const currencyFormatter = new Intl.NumberFormat('id-ID', {
         style: 'currency',
@@ -61,6 +66,12 @@ export class LoanApprovalList implements OnInit {
 
       this.loanApplicationService.getPendingLoanApplicationApproval(this.currentPage, 10).subscribe({
         next: (response) => {
+          if (this.currentPage >= response.totalPages && response.totalPages > 0) {
+              this.currentPage = 0;
+              this.loadApplication();
+              return;
+          }
+
           this.allApplications = response.content.map((item: any) => ({
             id: item.id,
             applicationId: item.applicationNumber || '-',

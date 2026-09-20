@@ -22,6 +22,7 @@ export interface EmploymentResponse {
   customerJobTitle: string;
   customerDeclaredIncome: number;
   customerVerifiedIncome: number;
+  customerOtherIncome?: number; // ✅ added
 }
 
 export interface BranchResponse {
@@ -33,17 +34,30 @@ export interface BranchResponse {
   branchStatus: string;
 }
 
+export interface PlafondResponse { // ✅ added
+  id: string;
+  plafondAmount: number;
+  interestRate: number;
+  maxTenorMonths: number;
+  usedAmount: number;
+  status: string;
+  validFrom: string;
+  validUntil: string;
+}
+
 export interface LoanApplicationResponse {
   id: string;
   applicationNumber: string;
   amountRequested: number;
   tenorMonths: number;
   monthlyInstallment: number;
+  totalRepayment?: number;
   interestRate: number;
   purpose: string;
   status: string;
   submittedAt: string;
   branch?: BranchResponse;
+  plafond?: PlafondResponse; // ✅ added
 }
 
 export interface LoanReviewDetailInterface {
@@ -91,7 +105,6 @@ export interface LoanHistoryResponse {
   createdAt: string;
 }
 
-// Interface wrapper untuk Spring Boot Page response
 export interface PageResponse<T> {
   content: T[];
   totalElements: number;

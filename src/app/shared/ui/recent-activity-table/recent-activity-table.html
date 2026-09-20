@@ -1,1 +1,97 @@
-<p>recent-activity-table works!</p>
+<div
+  class="rounded-[1.5rem] border border-white/60 bg-white/70 p-6 shadow-sm backdrop-blur-md"
+>
+  <div class="mb-6 flex items-center justify-between">
+    <div>
+      <h2 class="text-lg font-bold text-neutral-800">Log Aktivitas Terbaru</h2>
+      <p class="text-xs text-neutral-400 mt-0.5">
+        Aktivitas pengajuan loan secara real-time
+      </p>
+    </div>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-left text-sm text-neutral-700">
+      <thead>
+        <tr
+          class="border-b border-neutral-200/60 text-[0.6875rem] font-bold uppercase tracking-wider text-neutral-400"
+        >
+          <th class="pb-3 pl-2">Waktu</th>
+          <th class="pb-3">No. Aplikasi</th>
+          <th class="pb-3">Pemohon</th>
+          <th class="pb-3">Jumlah</th>
+          <th class="pb-3">Aksi</th>
+          <th class="pb-3">Status</th>
+          <th class="pb-3 pr-2">Oleh</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-neutral-100 font-medium">
+        <tr
+          *ngFor="let log of data"
+          (click)="navigateToDetail(log)"
+          class="transition-colors hover:bg-white/60 cursor-pointer"
+        >
+          <td class="py-3.5 pl-2 text-xs text-neutral-400 whitespace-nowrap">
+            {{ log.date }}
+          </td>
+
+          <!-- ✅ Application number with link style -->
+          <td
+            class="py-3.5 text-xs font-bold text-purple-600 hover:underline whitespace-nowrap"
+          >
+            {{ log.applicationNumber || '-' }}
+          </td>
+
+          <td class="py-3.5 font-semibold text-neutral-900 whitespace-nowrap">
+            {{ log.applicant }}
+          </td>
+
+          <td class="py-3.5 font-bold text-neutral-800 whitespace-nowrap">
+            {{ formatAmount(log.amount) }}
+          </td>
+
+          <!-- ✅ Action — what happened -->
+          <td class="py-3.5 text-xs text-neutral-600 whitespace-nowrap">
+            {{ log.action }}
+          </td>
+
+          <!-- ✅ Status badge -->
+          <td class="py-3.5">
+            <span
+              class="inline-block rounded-full px-2.5 py-0.5 text-[11px] font-semibold whitespace-nowrap"
+              [ngClass]="getStatusBadgeClass(log.status)"
+            >
+              {{ formatStatusLabel(log.status) }}
+            </span>
+          </td>
+
+          <td class="py-3.5 pr-2 text-xs text-neutral-500 whitespace-nowrap">
+            {{ log.responsible }}
+          </td>
+        </tr>
+
+        <!-- Empty state -->
+        <tr *ngIf="!data || data.length === 0">
+          <td colspan="7" class="py-10 text-center">
+            <div class="flex flex-col items-center gap-2 text-neutral-400">
+              <svg
+                class="w-8 h-8"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                />
+              </svg>
+              <p class="text-xs font-medium">Belum ada aktivitas terbaru</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -7,7 +7,9 @@
         <th class="py-4">Amount Requested</th>
         <th class="py-4">App Status</th>
         <th class="py-4">Review / Disburse Result</th>
-        <th class="py-4">Notes</th>
+        @if (!hideNotes) {
+          <th class="py-4">Notes</th>
+        }
         <th class="py-4 pr-4 text-right">Review Date</th>
       </tr>
     </thead>
@@ -33,6 +35,7 @@
           <td class="py-5 text-neutral-600">
             {{ item.status }}
           </td>
+
           @if (isReviewHistory(item)) {
             <!-- Review Result (APPROVED / REJECTED) -->
             <td class="py-5 font-semibold" 
@@ -44,9 +47,11 @@
             </td>
 
             <!-- Notes -->
-            <td class="py-5 text-neutral-600 max-w-xs truncate" [title]="item.notes">
-              {{ item.notes }}
-            </td>
+            @if (!hideNotes) {
+              <td class="py-5 text-neutral-600 max-w-xs truncate" [title]="item.notes">
+                {{ item.notes }}
+              </td>
+            }
           } @else {
             <!-- Disbursement Result -->
             <td class="py-5 font-semibold" 
@@ -57,7 +62,9 @@
               {{ item.status }}
             </td>
 
-            <td class="py-5 text-neutral-600">-</td>
+            @if (!hideNotes) {
+              <td class="py-5 text-neutral-600">-</td>
+            }
           }
 
           <!-- Review Date (CreatedAt) -->
@@ -67,7 +74,7 @@
         </tr>
       } @empty {
         <tr>
-          <td colspan="7" class="py-8 text-center text-neutral-400 italic">
+          <td [attr.colspan]="hideNotes ? 6 : 7" class="py-8 text-center text-neutral-400 italic">
             No loan history found.
           </td>
         </tr>

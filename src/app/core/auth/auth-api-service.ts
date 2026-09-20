@@ -15,7 +15,7 @@ export class AuthApiService {
 
   login(credentials: LoginRequest): Observable<ApiResponse<AuthData>> {
     return this.http.post<ApiResponse<AuthData>>(
-      `${this.baseUrl}/auth/login`, 
+      `${this.baseUrl}/auth/login-employee`, 
       credentials,
       { withCredentials: true }
     );

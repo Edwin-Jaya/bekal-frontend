@@ -1,5 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+export interface OperationalTrendItem {
+  month: string;
+  submissionAmount: number;
+  disbursedAmount: number;
+}
 
 @Component({
   selector: 'app-operational-trend-chart',
@@ -22,27 +28,38 @@ import { CommonModule } from '@angular/common';
         </div>
       </div>
 
-      <!-- Custom Bar Chart Container -->
+      <!-- Dynamic Bar Chart Container -->
       <div class="mt-8 flex h-52 items-end justify-around gap-3 px-2">
-        <!-- Pair 1 -->
-        <div class="flex items-end gap-2 h-full">
-          <div class="w-12 rounded-t-full bg-secondary-200 transition-all hover:opacity-80" style="height: 60%;"></div>
-          <div class="w-12 rounded-t-full bg-emerald-100 transition-all hover:opacity-80" style="height: 40%;"></div>
-        </div>
-
-        <!-- Pair 2 -->
-        <div class="flex items-end gap-2 h-full">
-          <div class="w-12 rounded-t-full bg-secondary-200 transition-all hover:opacity-80" style="height: 80%;"></div>
-          <div class="w-12 rounded-t-full bg-emerald-100 transition-all hover:opacity-80" style="height: 55%;"></div>
-        </div>
-
-        <!-- Pair 3 -->
-        <div class="flex items-end gap-2 h-full">
-          <div class="w-12 rounded-t-full bg-secondary-200 transition-all hover:opacity-80" style="height: 95%;"></div>
-          <div class="w-12 rounded-t-full bg-emerald-100 transition-all hover:opacity-80" style="height: 70%;"></div>
-        </div>
+        <ng-container *ngFor="let item of data">
+          <div class="flex flex-col items-center gap-2 h-full justify-end">
+            <div class="flex items-end gap-2 h-full">
+              <div 
+                class="w-10 sm:w-12 rounded-t-full bg-secondary-500 transition-all hover:opacity-80" 
+                [style.height.%]="getPercentage(item.submissionAmount)"
+                [title]="'Pengajuan: ' + item.submissionAmount">
+              </div>
+              <div 
+                class="w-10 sm:w-12 rounded-t-full bg-emerald-200 transition-all hover:opacity-80" 
+                [style.height.%]="getPercentage(item.disbursedAmount)"
+                [title]="'Pencairan: ' + item.disbursedAmount">
+              </div>
+            </div>
+            <span class="text-xs font-semibold text-neutral-600">{{ item.month }}</span>
+          </div>
+        </ng-container>
       </div>
     </div>
   `
 })
-export class OperationalTrendChart {}
+export class OperationalTrendChart {
+  @Input() data: OperationalTrendItem[] = [];
+
+  private get maxVal(): number {
+    if (!this.data || this.data.length === 0) return 1;
+    return Math.max(...this.data.flatMap(d => [d.submissionAmount, d.disbursedAmount])) || 1;
+  }
+
+  getPercentage(val: number): number {
+    return Math.max(8, Math.round((val / this.maxVal) * 100));
+  }
+}

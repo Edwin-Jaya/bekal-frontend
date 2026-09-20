@@ -7,6 +7,18 @@ export interface CustomerResponse {
   customerAddress: string;
 }
 
+export interface PlafondResponse {
+  // ✅ added
+  id: string;
+  plafondAmount: number;
+  interestRate: number;
+  maxTenorMonths: number;
+  usedAmount: number;
+  status: string;
+  validFrom: string;
+  validUntil: string;
+}
+
 export interface DocumentResponse {
   id: string;
   documentType: string;
@@ -22,6 +34,7 @@ export interface EmploymentResponse {
   customerJobTitle: string;
   customerDeclaredIncome: number;
   customerVerifiedIncome: number;
+  customerOtherIncome?: number;
 }
 
 export interface BranchResponse {
@@ -44,6 +57,7 @@ export interface LoanApplicationResponse {
   status: string;
   submittedAt: string;
   branch?: BranchResponse;
+  plafond?: PlafondResponse; // ✅ added
 }
 
 export interface LoanApprovalDetailInterface {
@@ -70,13 +84,21 @@ export interface LoanReviewResponse {
   reviewedBy: any;
 }
 
+export interface InternalUserResponse {
+  id: string;
+  internalUserFullName: string;
+  internalUserEmployeeCode: string;
+  internalUserEmail: string;
+  internalUserPhoneNumber: string;
+}
+
 export interface LoanApprovalResponse {
   id: string;
   loanApplicationId: any;
   result: string;
   notes: string;
   approvedAt: string;
-  approvedBy: any;
+  approvedBy: InternalUserResponse;
 }
 
 export interface LoanApplicationItem {

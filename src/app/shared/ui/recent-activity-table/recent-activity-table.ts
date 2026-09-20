@@ -1,71 +1,87 @@
-import { Component } from '@angular/core';
+// recent-activity-table.ts — full replacement
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
-interface ActivityLog {
+export interface RecentActivityItem {
+  applicationNumber: string; // ✅ added — for navigation + display
+  applicationId: string; // ✅ added — for router.navigate
   date: string;
   applicant: string;
-  amount: string;
-  status: 'Review' | 'Approved' | 'Rejected';
-  responsible: string;
+  amount: number | string;
+  action: string; // ✅ added — "Diajukan", "Disetujui Marketing", "Ditolak BM", etc.
+  status: string; // current status
+  responsible: string; // ✅ now required, filled by backend
 }
 
 @Component({
   selector: 'app-recent-activity-table',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="rounded-[1.5rem] border border-white/60 bg-white/70 p-6 shadow-sm backdrop-blur-md">
-      <h2 class="mb-6 text-lg font-bold text-neutral-800">Log Aktivitas & Pengajuan Terbaru</h2>
-
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm text-neutral-700">
-          <thead>
-            <tr class="border-b border-neutral-200/60 text-[0.6875rem] font-bold uppercase tracking-wider text-neutral-400">
-              <th class="pb-3 pl-2">Date</th>
-              <th class="pb-3">Applicant</th>
-              <th class="pb-3">Amount</th>
-              <th class="pb-3">Status</th>
-              <th class="pb-3 pr-2">Responsible</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-neutral-100 font-medium">
-            <tr *ngFor="let log of logs" class="transition-colors hover:bg-white/40">
-              <td class="py-4 pl-2 text-neutral-500">{{ log.date }}</td>
-              <td class="py-4 font-semibold text-neutral-900">{{ log.applicant }}</td>
-              <td class="py-4 font-bold text-neutral-800">{{ log.amount }}</td>
-              <td class="py-4">
-                <span
-                  class="inline-block rounded-full px-3 py-1 text-xs font-semibold"
-                  [ngClass]="getStatusBadgeClass(log.status)"
-                >
-                  {{ log.status }}
-                </span>
-              </td>
-              <td class="py-4 pr-2 text-neutral-600">{{ log.responsible }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  `
+  templateUrl: './recent-activity-table.html',
 })
 export class RecentActivityTable {
-  logs: ActivityLog[] = [
-    { date: '24 Oct 2023', applicant: 'Andi Wijaya', amount: 'Rp 250M', status: 'Review', responsible: 'Marketing' },
-    { date: '24 Oct 2023', applicant: 'Siti Aminah', amount: 'Rp 45M', status: 'Approved', responsible: 'Branch Manager' },
-    { date: '23 Oct 2023', applicant: 'CV Maju Terus', amount: 'Rp 1.2B', status: 'Rejected', responsible: 'Risk Analyst' }
-  ];
+  @Input() data: RecentActivityItem[] = [];
+
+  private router = inject(Router);
+
+  // ✅ Navigate to correct detail page based on status
+  navigateToDetail(log: RecentActivityItem): void {
+    if (!log.applicationId) return;
+    switch (log.status) {
+      case 'in_review':
+        this.router.navigate(['/marketing/loan-reviews', log.applicationId]);
+        break;
+      case 'in_approval':
+        this.router.navigate([
+          '/branch-manager/loan-approvals',
+          log.applicationId,
+        ]);
+        break;
+      case 'in_disbursement':
+        this.router.navigate([
+          '/back-office/loan-disbursement',
+          log.applicationId,
+        ]);
+        break;
+      default:
+        // Admin/history — navigate to read-only detail if you have one
+        break;
+    }
+  }
+
+  formatStatusLabel(status: string): string {
+    const labels: Record<string, string> = {
+      submitted: 'Submitted',
+      in_review: 'In Review',
+      in_approval: 'In Approval',
+      in_disbursement: 'Pencairan',
+      disbursed: 'Disbursed',
+      review_rejected: 'Ditolak',
+      approval_rejected: 'Ditolak',
+      cancelled: 'Cancelled',
+    };
+    return labels[status] || status;
+  }
 
   getStatusBadgeClass(status: string): string {
-    switch (status) {
-      case 'Review':
-        return 'bg-secondary-100 text-secondary-600';
-      case 'Approved':
-        return 'bg-emerald-100 text-emerald-700';
-      case 'Rejected':
-        return 'bg-rose-100 text-rose-600';
-      default:
-        return 'bg-neutral-100 text-neutral-600';
+    const map: Record<string, string> = {
+      submitted: 'bg-slate-100 text-slate-600',
+      in_review: 'bg-purple-100 text-purple-600',
+      in_approval: 'bg-amber-100 text-amber-700',
+      in_disbursement: 'bg-blue-100 text-blue-700',
+      disbursed: 'bg-emerald-100 text-emerald-700',
+      review_rejected: 'bg-rose-100 text-rose-600',
+      approval_rejected: 'bg-rose-100 text-rose-600',
+      cancelled: 'bg-neutral-100 text-neutral-500',
+    };
+    return map[status] || 'bg-neutral-100 text-neutral-600';
+  }
+
+  formatAmount(amount: number | string): string {
+    if (typeof amount === 'number') {
+      return 'Rp ' + amount.toLocaleString('id-ID');
     }
+    return amount || '-';
   }
 }

@@ -18,12 +18,24 @@ export interface DocumentResponse {
   rejectionReason?: string;
 }
 
+export interface PlafondResponse { // ✅ added
+  id: string;
+  plafondAmount: number;
+  interestRate: number;
+  maxTenorMonths: number;
+  usedAmount: number;
+  status: string;
+  validFrom: string;
+  validUntil: string;
+}
+
 export interface EmploymentResponse {
   customerEmploymentType: string;
   customerCompanyName: string;
   customerJobTitle: string;
   customerDeclaredIncome: number;
   customerVerifiedIncome: number;
+  customerOtherIncome?: number; // ✅ added
 }
 
 export interface BranchResponse {
@@ -46,6 +58,7 @@ export interface LoanApplicationResponse {
   status: string;
   submittedAt: string;
   branch?: BranchResponse;
+  plafond?: PlafondResponse; // ✅ added
 }
 
 export interface LoanDisbursementDetailInterface {
@@ -84,8 +97,8 @@ export interface LoanApplicationItem {
 export interface LoanHistoryDisbursementResponse {
   applicationId: string;
   applicationNumber: string;
-  customerFullName: string;
   amountRequested: string;
+  customerFullName: string;
   status: string;
   createdAt: string;
 }

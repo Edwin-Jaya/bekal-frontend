@@ -12,26 +12,39 @@ export class LoanReviewService {
   private apiUrl = `${environment.apiUrl}/loan-applications`;
 
   getReviewDetail(loanId: string): Observable<LoanReviewDetailInterface> {
-    return this.http.get<LoanReviewDetailInterface>(`${this.apiUrl}/${loanId}/detail`,{withCredentials:true});
+    return this.http.get<LoanReviewDetailInterface>(
+      `${this.apiUrl}/${loanId}/detail`,
+      { withCredentials: true }
+    );
   }
 
-  getPendingLoanApplication(page: number = 1, size: number = 10): Observable<any> {
-      let params = new HttpParams()
-        .set('page', page - 1) // Spring Boot index dimulai dari 0
-        .set('size', size);
+  getPendingLoanApplication(page: number = 0, size: number = 10): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page)  // ✅ sudah 0-based, tidak perlu page-1
+      .set('size', size);
 
-      return this.http.get<any>(`${this.apiUrl}/pending-reviews`, { params, withCredentials: true });
-    }
-  
+    return this.http.get<any>(
+      `${this.apiUrl}/pending-reviews`, 
+      { params, withCredentials: true }
+    );
+  }
+
   submitReview(payload: SubmitReviewPayload): Observable<LoanReviewResponse> {
-    return this.http.post<LoanReviewResponse>(`${environment.apiUrl}/loan-reviews/submit`, payload, {withCredentials:true});
+    return this.http.post<LoanReviewResponse>(
+      `${environment.apiUrl}/loan-reviews/submit`, 
+      payload, 
+      { withCredentials: true }
+    );
   }
 
   getLoanReviewHistory(page: number = 0, size: number = 10): Observable<PageResponse<LoanHistoryResponse>> {
     const params = new HttpParams()
-      .set('page', page-1)
+      .set('page', page)  // ✅ sudah 0-based, tidak perlu page-1
       .set('size', size);
 
-    return this.http.get<PageResponse<LoanHistoryResponse>>(`${environment.apiUrl}/loan-reviews/history`, { params, withCredentials:true});
+    return this.http.get<PageResponse<LoanHistoryResponse>>(
+      `${environment.apiUrl}/loan-reviews/history`, 
+      { params, withCredentials: true }
+    );
   }
 }

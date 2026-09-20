@@ -25,7 +25,7 @@ export interface Breadcrumb {
 })
 export class MainLayout implements OnInit {
   private authApi = inject(AuthApiService);
-  private menuService = inject(MenuService); // <--- Inject MenuService
+  private menuService = inject(MenuService);
 
   overviewPath = computed(() => {
     const role = this.authApi.getUserRole();
@@ -44,11 +44,29 @@ export class MainLayout implements OnInit {
     }
   });
 
+  // Dynamic user role title for the sidebar badge
+  userRoleLabel = computed(() => {
+    const role = this.authApi.getUserRole();
+
+    switch (role) {
+      case 'SUPER_ADMIN':
+        return 'Super Admin';
+      case 'MARKETING':
+        return 'Marketing';
+      case 'BACK_OFFICE':
+        return 'Back Office';
+      case 'BRANCH_MANAGER':
+        return 'Branch Manager';
+      default:
+        return role ? role.replace('_', ' ') : 'User';
+    }
+  });
+
   // Reference the signal for template rendering
   menus = this.menuService.menus;
 
   filteredMenus = computed(() => {
-  // 1. Normalize overview path (lowercase, strip leading/trailing slashes)
+    // 1. Normalize overview path (lowercase, strip leading/trailing slashes)
     const currentOverview = this.overviewPath().toLowerCase().replace(/^\/|\/$/g, '');
 
     return this.menus().filter(menu => {
