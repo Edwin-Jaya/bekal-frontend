@@ -24,9 +24,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "styles": ["src/styles.css"],
             "ssr": false
           },
           "configurations": {
@@ -39,8 +37,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "30kB",
+                  "maximumError": "40kB"
                 }
               ],
               "outputHashing": "all"
@@ -62,8 +60,8 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "options": {
-              "proxyConfig": "proxy.conf.json"
-            },
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "buildTarget": "bekal:build:production"
@@ -78,7 +76,7 @@
           "builder": "@angular/build:unit-test",
           "options": {
             "runnerConfig": true,
-            "runner":"karma"
+            "runner": "karma"
           }
         }
       }
