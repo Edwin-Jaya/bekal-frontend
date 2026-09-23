@@ -23,11 +23,18 @@ import {
 } from '../models/loan-review-model';
 import { environment } from '../../../../environments/environment';
 import { SafePipe } from '../../../shared/pipe/safe-pipe';
+import { AuthImagePipe } from '../../../shared/pipe/auth-image-pipe';
 
 @Component({
   selector: 'app-loan-review-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, SafePipe],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SafePipe,
+    AuthImagePipe,
+  ],
   templateUrl: './loan-review-detail.html',
   styleUrl: './loan-review-detail.css',
 })
