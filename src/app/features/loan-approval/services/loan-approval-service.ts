@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { LoanApprovalDetailInterface, LoanApprovalResponse, LoanHistoryResponse, PageResponse, SubmitPayload } from '../models/loan-approval-model';
+import { authContext } from '../../../core/interceptor/auth-interceptor';
 
 @Injectable({
   providedIn: 'root',
@@ -16,21 +17,21 @@ export class LoanApprovalService {
       .set('page', page)  // ✅ sudah 0-based, tidak perlu page-1
       .set('size', size);
 
-    return this.http.get<any>(`${this.apiUrl}/pending-approvals`, { params, withCredentials: true });
+    return this.http.get<any>(`${this.apiUrl}/pending-approvals`, { params, context: authContext(), withCredentials: true });
   }
 
   submitApproval(payload: SubmitPayload): Observable<LoanApprovalResponse> {
     return this.http.post<LoanApprovalResponse>(
       `${environment.apiUrl}/loan-approval/submit`, 
       payload, 
-      { withCredentials: true }
+      { context: authContext(), withCredentials: true }
     );
   }
 
   getApprovalDetail(loanId: string): Observable<LoanApprovalDetailInterface> {
     return this.http.get<LoanApprovalDetailInterface>(
       `${this.apiUrl}/${loanId}/detail-approval`,
-      { withCredentials: true }
+      { context: authContext(), withCredentials: true }
     );
   }
 
@@ -41,7 +42,7 @@ export class LoanApprovalService {
 
     return this.http.get<PageResponse<LoanHistoryResponse>>(
       `${environment.apiUrl}/loan-approval/history`, 
-      { params, withCredentials: true }
+      { params, context: authContext(), withCredentials: true }
     );
   }
-}
+}

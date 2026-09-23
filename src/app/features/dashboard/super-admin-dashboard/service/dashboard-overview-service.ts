@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RecentActivityItem } from '../../../../shared/ui/recent-activity-table/recent-activity-table';
 import { environment } from '../../../../../environments/environment';
+import { authContext } from '../../../../core/interceptor/auth-interceptor';
 
 export type SubtextColor = 'purple' | 'green' | 'gray';
 
@@ -39,12 +40,16 @@ export class DashboardOverviewService {
   private baseUrl = `${environment.apiUrl}/admin/dashboard`;
 
   getOverview(): Observable<DashboardOverview> {
-    return this.http.get<DashboardOverview>(`${this.baseUrl}/overview`);
+    return this.http.get<DashboardOverview>(`${this.baseUrl}/overview`, {
+      context: authContext(),
+    });
   }
 
   getRecentActivities(page = 0, size = 10): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/recent-activities`, {
       params: { page, size },
+      context: authContext(),
     });
   }
 }
+

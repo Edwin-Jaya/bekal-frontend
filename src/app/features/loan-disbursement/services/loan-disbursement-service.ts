@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { LoanDisbursementDetailInterface, LoanDisbursementResponse, LoanHistoryDisbursementResponse, PageResponse, SubmitDisbursementPayload } from '../models/loan-disbursement-model';
+import { authContext } from '../../../core/interceptor/auth-interceptor';
 
 @Injectable({
   providedIn: 'root',
@@ -16,15 +17,15 @@ export class LoanDisbursementService {
       .set('page', page - 1) 
       .set('size', size);
 
-    return this.http.get<any>(`${this.apiUrl}/pending-disbursement`, { params, withCredentials: true });
+    return this.http.get<any>(`${this.apiUrl}/pending-disbursement`, { params, context: authContext(), withCredentials: true });
   }
 
   submitDisbursement(payload: SubmitDisbursementPayload): Observable<LoanDisbursementResponse> {
-    return this.http.post<LoanDisbursementResponse>(`${environment.apiUrl}/loan-disbursement/submit`, payload, {withCredentials:true});
+    return this.http.post<LoanDisbursementResponse>(`${environment.apiUrl}/loan-disbursement/submit`, payload, { context: authContext(), withCredentials: true });
   }
 
   getApprovalDetail(loanId: string): Observable<LoanDisbursementDetailInterface> {
-    return this.http.get<LoanDisbursementDetailInterface>(`${this.apiUrl}/${loanId}/detail-disbursement`,{withCredentials:true});
+    return this.http.get<LoanDisbursementDetailInterface>(`${this.apiUrl}/${loanId}/detail-disbursement`, { context: authContext(), withCredentials: true });
   }
 
   getLoanDisbursementHistory(page: number = 0, size: number = 10): Observable<PageResponse<LoanHistoryDisbursementResponse>> {
@@ -32,6 +33,7 @@ export class LoanDisbursementService {
       .set('page', page-1)
       .set('size', size);
 
-    return this.http.get<PageResponse<LoanHistoryDisbursementResponse>>(`${environment.apiUrl}/loan-disbursement/history`, { params, withCredentials:true});
+    return this.http.get<PageResponse<LoanHistoryDisbursementResponse>>(`${environment.apiUrl}/loan-disbursement/history`, { params, context: authContext(), withCredentials: true });
   }
 }
+

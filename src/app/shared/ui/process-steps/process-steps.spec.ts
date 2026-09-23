@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProcessSteps } from './process-steps';
+import { ProcessStepsComponent } from './process-steps';
 
-describe('ProcessSteps', () => {
-  let component: ProcessSteps;
-  let fixture: ComponentFixture<ProcessSteps>;
+describe('ProcessStepsComponent', () => {
+  let component: ProcessStepsComponent;
+  let fixture: ComponentFixture<ProcessStepsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProcessSteps]
+      imports: [ProcessStepsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ProcessSteps);
+    fixture = TestBed.createComponent(ProcessStepsComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
@@ -21,3 +21,4 @@ describe('ProcessSteps', () => {
     expect(component).toBeTruthy();
   });
 });
+

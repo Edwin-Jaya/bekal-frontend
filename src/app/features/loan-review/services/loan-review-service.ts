@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { LoanHistoryResponse, LoanReviewDetailInterface, LoanReviewResponse, PageResponse, SubmitReviewPayload } from '../models/loan-review-model';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { authContext } from '../../../core/interceptor/auth-interceptor';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class LoanReviewService {
   getReviewDetail(loanId: string): Observable<LoanReviewDetailInterface> {
     return this.http.get<LoanReviewDetailInterface>(
       `${this.apiUrl}/${loanId}/detail`,
-      { withCredentials: true }
+      { context: authContext(), withCredentials: true }
     );
   }
 
@@ -25,7 +26,7 @@ export class LoanReviewService {
 
     return this.http.get<any>(
       `${this.apiUrl}/pending-reviews`, 
-      { params, withCredentials: true }
+      { params, context: authContext(), withCredentials: true }
     );
   }
 
@@ -33,7 +34,7 @@ export class LoanReviewService {
     return this.http.post<LoanReviewResponse>(
       `${environment.apiUrl}/loan-reviews/submit`, 
       payload, 
-      { withCredentials: true }
+      { context: authContext(), withCredentials: true }
     );
   }
 
@@ -44,7 +45,7 @@ export class LoanReviewService {
 
     return this.http.get<PageResponse<LoanHistoryResponse>>(
       `${environment.apiUrl}/loan-reviews/history`, 
-      { params, withCredentials: true }
+      { params, context: authContext(), withCredentials: true }
     );
   }
-}
+}

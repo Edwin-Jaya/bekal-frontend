@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { PageResponse, RoleMenuAccessItem, SaveRoleMenuAccessRequest, RoleOption, ApiResponse } from '../models/access-management-model';
 import { map } from 'rxjs/operators';
+import { authContext } from '../../../core/interceptor/auth-interceptor';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class AccessManagementService {
   private rolesUrl = `${environment.apiUrl}/role/all`;
 
   getRoles(): Observable<RoleOption[]> {
-    return this.http.get<ApiResponse<RoleOption[]>>(this.rolesUrl, { withCredentials: true }).pipe(
+    return this.http.get<ApiResponse<RoleOption[]>>(this.rolesUrl, { context: authContext(), withCredentials: true }).pipe(
       map(response => response.data)
     );
   }
@@ -26,7 +27,7 @@ export class AccessManagementService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    return this.http.get<PageResponse<RoleMenuAccessItem>>(`${this.apiUrl}/role/${roleId}`, { params, withCredentials: true });
+    return this.http.get<PageResponse<RoleMenuAccessItem>>(`${this.apiUrl}/role/${roleId}`, { params, context: authContext(), withCredentials: true });
   }
 
   // POST: Simpan checklist matrix
@@ -40,6 +41,7 @@ export class AccessManagementService {
       roleMenuCanApprove: item.roleMenuCanApprove
     }));
 
-    return this.http.post(`${this.apiUrl}/assign/${roleId}`, payload, { responseType: 'text', withCredentials: true });
+    return this.http.post(`${this.apiUrl}/assign/${roleId}`, payload, { responseType: 'text', context: authContext(), withCredentials: true });
   }
 }
+

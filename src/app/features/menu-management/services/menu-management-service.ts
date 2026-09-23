@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { authContext } from '../../../core/interceptor/auth-interceptor';
 
 @Injectable({
   providedIn: 'root',
@@ -21,18 +22,19 @@ export class ManagementMenuService {
         params = params.set('status', status);
       }
 
-      return this.http.get<any>(`${this.apiUrl}/menu`, { params, withCredentials: true });
+      return this.http.get<any>(`${this.apiUrl}/menu`, { params, context: authContext(), withCredentials: true });
     }
 
   createMenu(payload: Partial<ManagementMenuService>): Observable<ManagementMenuService> {
-     return this.http.post<any>(`${this.apiUrl}/menu`, payload, { withCredentials: true });
+     return this.http.post<any>(`${this.apiUrl}/menu`, payload, { context: authContext(), withCredentials: true });
   }
 
   updateMenu(id: string, payload: Partial<ManagementMenuService>): Observable<ManagementMenuService> {
-    return this.http.post<any>(`${this.apiUrl}/menu/${id}`, payload, { withCredentials: true });
+    return this.http.post<any>(`${this.apiUrl}/menu/${id}`, payload, { context: authContext(), withCredentials: true });
   }
 
   deleteMenu(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/menu/${id}`,{ withCredentials: true });
+    return this.http.delete<void>(`${this.apiUrl}/menu/${id}`, { context: authContext(), withCredentials: true });
   }
 }
+

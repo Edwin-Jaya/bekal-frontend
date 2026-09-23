@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RoleItem, RoleResponse } from '../models/role-management-model';
 import { environment } from '../../../../environments/environment';
+import { authContext } from '../../../core/interceptor/auth-interceptor';
 
 @Injectable({
   providedIn: 'root',
@@ -22,19 +23,20 @@ export class RoleManagementService {
         params = params.set('status', status);
       }
 
-      return this.http.get<any>(`${this.apiUrl}/role`, { params, withCredentials: true });
+      return this.http.get<any>(`${this.apiUrl}/role`, { params, context: authContext(), withCredentials: true });
     }
 
   createRole(payload: Partial<RoleManagementService>): Observable<RoleManagementService> {
-     return this.http.post<any>(`${this.apiUrl}/role`, payload, { withCredentials: true });
+     return this.http.post<any>(`${this.apiUrl}/role`, payload, { context: authContext(), withCredentials: true });
   }
 
   updateRole(id: string, payload: Partial<RoleManagementService>): Observable<RoleManagementService> {
-    return this.http.post<any>(`${this.apiUrl}/role/${id}`, payload, { withCredentials: true });
+    return this.http.post<any>(`${this.apiUrl}/role/${id}`, payload, { context: authContext(), withCredentials: true });
   }
 
   deleteRole(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/role/${id}`,{ withCredentials: true });
+    return this.http.delete<void>(`${this.apiUrl}/role/${id}`, { context: authContext(), withCredentials: true });
   }
 
 }
+
