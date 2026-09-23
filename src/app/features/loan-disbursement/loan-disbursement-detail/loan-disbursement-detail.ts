@@ -22,11 +22,12 @@ import {
 } from '../models/loan-disbursement-model';
 import { environment } from '../../../../environments/environment';
 import { SafePipe } from '../../../shared/pipe/safe-pipe';
+import { AuthImagePipe } from '../../../shared/pipe/auth-image-pipe';
 
 @Component({
   selector: 'app-loan-disbursement-detail',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SafePipe],
+  imports: [CommonModule, ReactiveFormsModule, SafePipe, AuthImagePipe],
   templateUrl: './loan-disbursement-detail.html',
   styleUrl: './loan-disbursement-detail.css',
 })

@@ -686,7 +686,7 @@
         <!-- Image Viewer -->
         @if (isImage(selectedDoc.resolvedUrl)) {
         <img
-          [src]="selectedDoc.resolvedUrl"
+          [src]="selectedDoc.resolvedUrl | authImage | async"
           [style.transform]="'scale(' + zoomLevel + ')'"
           [style.transformOrigin]="'top center'"
           [style.transition]="'transform 0.2s ease'"

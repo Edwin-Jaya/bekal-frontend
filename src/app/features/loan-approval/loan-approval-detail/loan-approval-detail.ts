@@ -23,11 +23,18 @@ import { LoanApprovalService } from '../services/loan-approval-service';
 import { FeedbackService } from '../../../core/services/feedback-service'; // Sesuaikan relative path
 import { environment } from '../../../../environments/environment';
 import { SafePipe } from '../../../shared/pipe/safe-pipe';
+import { AuthImagePipe } from '../../../shared/pipe/auth-image-pipe';
 
 @Component({
   selector: 'app-loan-approval-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, SafePipe],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SafePipe,
+    AuthImagePipe,
+  ],
   templateUrl: './loan-approval-detail.html',
   styleUrl: './loan-approval-detail.css',
 })
