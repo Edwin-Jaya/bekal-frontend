@@ -122,8 +122,8 @@ export class Landing implements AfterViewInit, OnDestroy {
   readonly testimonials: Testimonial[] = [
     {
       initial: 'R',
-      name: 'Rizky A.',
-      role: 'Staf Administrasi, Jakarta',
+      name: 'Zefanya Delvin',
+      role: 'Staf Paguyuban Tiktok, Jakarta',
       stars: 5,
       text: 'Prosesnya beneran cepat. Saya apply Senin pagi, dana cair Selasa siang. Tim CS-nya ramah banget, nggak kayak pinjaman online lain yang ribet.',
       avatarGradient: 'linear-gradient(135deg,#7e22ce,#9333ea)',

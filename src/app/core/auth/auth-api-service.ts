@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { LoginRequest, ApiResponse, AuthData } from './auth-model';
+import { LoginRequest, RegisterRequest, ApiResponse, AuthData } from './auth-model';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -18,6 +18,13 @@ export class AuthApiService {
       `${this.baseUrl}/auth/login-employee`, 
       credentials,
       { withCredentials: true }
+    );
+  }
+
+  register(userData: RegisterRequest | any): Observable<ApiResponse<any>> {
+    return this.http.post<ApiResponse<any>>(
+      `${this.baseUrl}/auth/register`,
+      userData
     );
   }
 

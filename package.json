@@ -14,6 +14,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test --watch=false",
+    "test:services": "ng test --watch=false --include=\"src/app/core/interceptor/auth-interceptor.spec.ts\" --include=\"src/app/core/auth/auth-api-service.spec.ts\" --include=\"src/app/features/user-management/services/user-management-service.spec.ts\" --include=\"src/app/features/loan-review/services/loan-review-service.spec.ts\" --include=\"src/app/features/loan-approval/services/loan-approval-service.spec.ts\" --include=\"src/app/features/loan-disbursement/services/loan-disbursement-service.spec.ts\"",
     "test:coverage": "ng test --watch=false --coverage",
     "typecheck": "tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.spec.json --noEmit",
     "lint": "eslint .",
