@@ -51,7 +51,7 @@ export interface MarqueeItem {
 export class Landing implements AfterViewInit, OnDestroy {
   // ─── External links ────────────────────────────────────────────────────
   readonly playStoreLink =
-    'https://play.google.com/store/apps/details?id=com.bekal.app';
+    'https://drive.google.com/file/d/1QxLFyRYV93RxpVDYSoIn6tXdnwd5AQ32/view?usp=drive_link';
   readonly employeeLoginLink = '/login';
 
   // ─── Nav state ─────────────────────────────────────────────────────────
@@ -130,15 +130,15 @@ export class Landing implements AfterViewInit, OnDestroy {
     },
     {
       initial: 'S',
-      name: 'Sari W.',
+      name: 'Hizkia Albertian',
       role: 'Marketing Officer, Surabaya',
       stars: 5,
-      text: 'Yang bikin saya loyal ke Bekal itu sistemnya — bayar tepat waktu, limit naik sendiri. Sekarang saya sudah di Tier 2 dan berencana ke Tier 3.',
+      text: 'Yang bikin saya loyal ke Bekal itu sistemnya, bayar tepat waktu, limit naik sendiri. Sekarang saya sudah di Tier 2 dan berencana ke Tier 3.',
       avatarGradient: 'linear-gradient(135deg,#1e40af,#3b82f6)',
     },
     {
       initial: 'D',
-      name: 'Dimas P.',
+      name: 'Bagas Aditya',
       role: 'Teknisi, Bandung',
       stars: 4,
       text: 'Syaratnya simpel — KTP sama slip gaji. Saya pikir bakalan ada tambahan dokumen, ternyata nggak ada. Langsung diproses dan approved.',
@@ -146,7 +146,7 @@ export class Landing implements AfterViewInit, OnDestroy {
     },
     {
       initial: 'N',
-      name: 'Nina K.',
+      name: 'Jason Theofillus',
       role: 'Akuntan, Medan',
       stars: 5,
       text: 'Bunganya transparan, tidak ada biaya tersembunyi. Sebagai akuntan saya sangat menghargai itu. Simulasi angsurannya langsung kelihatan di aplikasi.',
@@ -157,8 +157,7 @@ export class Landing implements AfterViewInit, OnDestroy {
   faqs: FaqItem[] = [
     {
       question: 'Siapa yang bisa mengajukan pinjaman Bekal?',
-      answer:
-        'Karyawan tetap atau kontrak yang bekerja minimal 6 bulan di perusahaan mitra Bekal. Cukup tunjukkan KTP aktif dan slip gaji 3 bulan terakhir.',
+      answer: 'Siapa saja, cukup tunjukkan KTP aktif dan slip gaji.',
       open: false,
     },
     {
